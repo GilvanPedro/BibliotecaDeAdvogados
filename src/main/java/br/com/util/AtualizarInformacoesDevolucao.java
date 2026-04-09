@@ -9,9 +9,7 @@ import br.com.service.HistoricoLeituraService;
 
 public class AtualizarInformacoesDevolucao {
 
-    private final HistoricoLeituraRepository hlRepository = new HistoricoLeituraRepository();
     private final HistoricoLeituraService historicoService = new HistoricoLeituraService();
-    private final UsuarioRepository  usuarioRepository= new UsuarioRepository();
 
     public void atualizar(Emprestimo emprestimo) {
         Usuario u = emprestimo.getUsuario();

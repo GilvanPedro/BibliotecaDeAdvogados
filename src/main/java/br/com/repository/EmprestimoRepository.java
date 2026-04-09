@@ -3,10 +3,7 @@ package br.com.repository;
 import br.com.database.ConexaoBanco;
 import br.com.model.dto.EmprestimoDTO;
 import br.com.model.entity.Emprestimo;
-import br.com.model.entity.HistoricoLeitura;
-import br.com.model.entity.Livro;
-import br.com.model.entity.Usuario;
-import br.com.model.enums.StatusLeitura;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -72,9 +69,4 @@ public class EmprestimoRepository {
 
         return emprestimos;
     }
-
-    public EmprestimoDTO buscarPorEmprestimo(int idEmprestimo){
-
-    }
-
 }

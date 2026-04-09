@@ -76,13 +76,15 @@ public class UsuarioRepository {
 
     // vai deixar um usuario inativo
     public void inativarUsuario(int id) {
-        String sql = "UPDATE usuarios SET ativo = false WHERE id = ?";
+        String sql = "UPDATE usuarios SET ativo = false WHERE id = ? AND ativo = true";
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
             int linhas = stmt.executeUpdate();
+
             if (linhas == 0) System.out.println("Usuario não encontrado!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

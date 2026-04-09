@@ -7,8 +7,6 @@ import br.com.repository.UsuarioRepository;
 
 public class AtualizarInformacoesEmprestimo {
 
-    private final EmprestimoRepository emprestimoRepository = new EmprestimoRepository();
-    private final HistoricoLeituraRepository historicoRepository = new HistoricoLeituraRepository();
     private final UsuarioRepository usuarioRepository = new UsuarioRepository();
 
     public void atualizar(Emprestimo emprestimo){

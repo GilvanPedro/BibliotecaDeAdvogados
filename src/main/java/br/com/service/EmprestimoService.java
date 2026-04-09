@@ -5,7 +5,6 @@ import br.com.model.entity.HistoricoLeitura;
 import br.com.model.enums.StatusLeitura;
 import br.com.model.enums.TipoLeitura;
 import br.com.repository.EmprestimoRepository;
-import br.com.repository.DevolucaoRepository;
 import br.com.repository.HistoricoLeituraRepository;
 import br.com.repository.UsuarioRepository;
 
@@ -19,7 +18,6 @@ public class EmprestimoService {
     private final EmprestimoRepository emprestimoRepository = new EmprestimoRepository();
     private final HistoricoLeituraRepository historicoRepository = new HistoricoLeituraRepository();
     private final UsuarioRepository usuarioRepository = new UsuarioRepository();
-    private final DevolucaoRepository devolucaoRepository = new DevolucaoRepository();
 
 
     private final int leituraPresencialPonto = 3;

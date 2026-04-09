@@ -4,7 +4,6 @@ import br.com.database.ConexaoBanco;
 import br.com.model.dto.HistoricoDTO;
 import br.com.model.entity.Emprestimo;
 import br.com.model.entity.HistoricoLeitura;
-import br.com.model.entity.Usuario;
 import br.com.model.enums.StatusLeitura;
 import br.com.model.enums.TipoLeitura;
 
