@@ -1,13 +1,13 @@
 package br.com.util;
 
 import br.com.model.entity.Emprestimo;
-import br.com.repository.EmprestimoRepository;
-import br.com.repository.HistoricoLeituraRepository;
 import br.com.repository.UsuarioRepository;
+import br.com.service.UsuarioService;
 
 public class AtualizarInformacoesEmprestimo {
 
     private final UsuarioRepository usuarioRepository = new UsuarioRepository();
+    private final UsuarioService usuarioService = new UsuarioService();
 
     public void atualizar(Emprestimo emprestimo){
 
@@ -16,10 +16,10 @@ public class AtualizarInformacoesEmprestimo {
 
         // adiciona os pontos por ler 10 livros e por pegar um livro
         if(emprestimo.getUsuario().getLivros_alugados_total() % 10 == 0){
-            usuarioRepository.adicionarPontos(emprestimo.getUsuario().getId(), pontosPorLeituraConstante);
+            usuarioService.adicionarPontos(emprestimo.getUsuario(), pontosPorLeituraConstante);
         }
 
-        usuarioRepository.adicionarPontos(emprestimo.getUsuario().getId(), pegarLivroPonto);
+        usuarioService.adicionarPontos(emprestimo.getUsuario(), pegarLivroPonto);
 
         //atualizar a quantidade do livro disponivel e a quantidade de vezes que ele foi alugado, juntamente com a quantidade de livros que o usuario ja pegou e possui no momento e coloca o livro como devolvido no emprestimo
         emprestimo.getLivro().setQuantidadeLivros(

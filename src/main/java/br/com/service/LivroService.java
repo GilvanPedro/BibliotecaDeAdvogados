@@ -63,9 +63,14 @@ public class LivroService {
         return "Livro não encontrado";
     }
 
-    public String inativarLivro(int id){
-        inativarLivro(id);
+    public String inativarLivro(Livro livro){
+        if(livro != null){
+            livro.setAtivo(false);
+            livroRepository.inativarLivro(livro.getId());
 
-        return "Livro inativado com sucesso";
+            return "Livro inativado com sucesso";
+        }
+
+        return "Livro não encontrado";
     }
 }

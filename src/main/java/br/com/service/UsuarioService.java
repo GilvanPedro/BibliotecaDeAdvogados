@@ -66,9 +66,27 @@ public class UsuarioService {
     }
 
     // inativar um usuário
-    public String inativarUsuario(int id){
-        usuarioRepository.inativarUsuario(id);
+    public String inativarUsuario(Usuario usuario){
 
-        return  "Usuario inativado com sucesso";
+        if(usuario != null){
+            usuario.setAtivo(false);
+            usuarioRepository.inativarUsuario(usuario.getId());
+
+            return  "Usuario inativado com sucesso";
+        }
+
+        return "Usuario não encontrado!";
+    }
+
+    // adicionar pontos para os usuarios
+    public String adicionarPontos(Usuario usuario, int pontos){
+        if(!usuario.isAtivo()){
+            return "Usuario não esta ativo, impossível adicionar pontos para ele";
+        }
+
+        usuario.setPontos(usuario.getPontos() + pontos);
+        usuarioRepository.adicionarPontos(usuario.getId(), pontos);
+
+        return "Pontos adicionados com sucesso para "+usuario.getNome();
     }
 }

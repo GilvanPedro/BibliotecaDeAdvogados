@@ -18,6 +18,7 @@ public class DevolucaoService {
     private final UsuarioRepository usuarioRepository = new UsuarioRepository();
     AtualizarInformacoesDevolucao atualizarDevolucao = new AtualizarInformacoesDevolucao();
     private final HistoricoLeituraRepository historicoLeituraRepository = new HistoricoLeituraRepository();
+    UsuarioService usuarioService = new UsuarioService();
 
     private final int devolvidoEmDiaPonto = 2;
 
@@ -35,7 +36,7 @@ public class DevolucaoService {
             usuario.setValorMulta(multaValor);
             usuario.setMulta_pendente(true); // Garante que o status mude
         } else {
-            usuarioRepository.adicionarPontos(usuario.getId(), devolvidoEmDiaPonto);
+            usuarioService.adicionarPontos(usuario, devolvidoEmDiaPonto);
         }
 
         // PERSISTÊNCIA

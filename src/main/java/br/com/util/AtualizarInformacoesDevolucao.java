@@ -3,8 +3,6 @@ package br.com.util;
 import br.com.model.entity.Emprestimo;
 import br.com.model.entity.Livro;
 import br.com.model.entity.Usuario;
-import br.com.repository.HistoricoLeituraRepository;
-import br.com.repository.UsuarioRepository;
 import br.com.service.HistoricoLeituraService;
 
 public class AtualizarInformacoesDevolucao {

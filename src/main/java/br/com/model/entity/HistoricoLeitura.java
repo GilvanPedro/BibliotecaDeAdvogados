@@ -55,8 +55,4 @@ public class HistoricoLeitura {
     public void setStatusLeitura(StatusLeitura statusLeitura) {
         this.statusLeitura = statusLeitura;
     }
-
-    public void setTipoLeitura(TipoLeitura tipoLeitura) {
-        this.tipoLeitura = tipoLeitura;
-    }
 }

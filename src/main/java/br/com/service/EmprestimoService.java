@@ -1,5 +1,6 @@
 package br.com.service;
 
+import br.com.model.dto.HistoricoDTO;
 import br.com.model.entity.Emprestimo;
 import br.com.model.entity.HistoricoLeitura;
 import br.com.model.enums.StatusLeitura;
@@ -12,12 +13,15 @@ import br.com.util.AtualizarInformacoesEmprestimo;
 
 import br.com.util.ValidarQuantidadeLivrosPegos;
 
+import java.util.List;
+
 public class EmprestimoService {
 
     private final ValidarQuantidadeLivrosPegos validacaoQuantidadeLivros = new ValidarQuantidadeLivrosPegos();
     private final EmprestimoRepository emprestimoRepository = new EmprestimoRepository();
     private final HistoricoLeituraRepository historicoRepository = new HistoricoLeituraRepository();
     private final UsuarioRepository usuarioRepository = new UsuarioRepository();
+    UsuarioService usuarioService = new UsuarioService();
 
 
     private final int leituraPresencialPonto = 3;
@@ -29,8 +33,9 @@ public class EmprestimoService {
             return "Pague a multa no valor de R$ " + emprestimo.getUsuario().getValorMulta() + " antes de pegar outro livro!";
         }
 
-        if(!emprestimo.getUsuario().isAtivo()){
-            return "Usuário está inativo, não é possivel que ele pegue um livro emprestado";
+        // verifica se o usuário ou o livro não estao ativos
+        if(!emprestimo.getUsuario().isAtivo() || !emprestimo.getLivro().isAtivo()){
+            return "Usuário ou Livro inativo, não é possivel realizar o emprestado";
         }
 
         // verifica se o usuario pode pegar mais livros
@@ -51,7 +56,7 @@ public class EmprestimoService {
             );
 
             historicoRepository.salvar(historicoLeitura);
-            usuarioRepository.adicionarPontos(emprestimo.getUsuario().getId(), leituraPresencialPonto);
+            usuarioService.adicionarPontos(emprestimo.getUsuario(), leituraPresencialPonto);
 
             emprestimo.getLivro().setQuantidadeEmprestimo(
                     emprestimo.getLivro().getQuantidadeEmprestimo() + 1
@@ -78,8 +83,16 @@ public class EmprestimoService {
         atualizarInformacoes.atualizar(emprestimo);
 
         return "Livro Pego com sucesso";
-
     }
 
+    public List<HistoricoDTO> listarHistorico(){
+        List <HistoricoDTO> historicos = historicoRepository.listar();
 
+        if(historicos.isEmpty()){
+            System.out.println("Histórico está vazio");
+            return null;
+        }
+
+        return historicos;
+    }
 }
