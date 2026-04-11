@@ -13,7 +13,7 @@ public class UsuarioService {
 
     // adicionar um usuario
     public String adicionarUsuario(Usuario usuario){
-        if(usuario.getNome() != null){
+        if(usuario.getNome() == null){
             return "Nome inválido";
         }
         if(ValidacoesEmailCpf.validarCPF(usuario.getCpf()) == false){
@@ -43,6 +43,8 @@ public class UsuarioService {
             usuario.setNome(nome);
             usuario.setEmail(email);
             usuario.setFuncao(funcaoUsuario);
+
+            usuarioRepository.atualizar(usuario);
 
             return "Usuario editado com sucesso";
 

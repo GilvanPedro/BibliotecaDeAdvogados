@@ -48,6 +48,8 @@ public class LivroRepository {
                         CategoriaLivros.valueOf(rs.getString("categoria")),
                         rs.getInt("quantidade_livros")
                 );
+                livro.setQuantidadeEmprestimo(rs.getInt("quantidade_emprestimo"));
+                livro.setAtivo(rs.getBoolean("ativo"));
 
                 livros.add(livro);
             }
@@ -85,7 +87,7 @@ public class LivroRepository {
 
     // inativar um livro do banco de dados
     public void inativarLivro(int id) {
-        String sql = "UPDATE livros SET ativo = false WHERE id = ?";
+        String sql = "UPDATE livros SET ativo = false WHERE id = ? AND ativo = true";
 
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

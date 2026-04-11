@@ -55,6 +55,6 @@ public class EmprestimoController {
                 livro
         );
 
-        emprestimoRepository.salvar(novoEmprestimo);
+        emprestimoService.adicionarEmprestimo(novoEmprestimo);
     }
 }

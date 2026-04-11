@@ -2,11 +2,14 @@ package br.com.util;
 
 import br.com.model.entity.Emprestimo;
 import br.com.model.entity.Usuario;
+import br.com.repository.UsuarioRepository;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Multas {
+    UsuarioRepository usuarioRepository = new UsuarioRepository();
+
     public int calcularMulta(Emprestimo emprestimo){
         LocalDate hoje = LocalDate.now();
         LocalDate dataPrevista = emprestimo.getDevolucao_data();
@@ -27,11 +30,14 @@ public class Multas {
     }
 
     public String pagarMulta(Usuario usuario){
-        if(usuario.getValorMulta() <= 0){
+        if(usuario.getValorMulta() <= 0 && !usuario.isMulta_pendente()){
             return "Usuário não possui nenhuma multa pendente";
         }
 
         usuario.setValorMulta(0);
+        usuario.setMulta_pendente(false);
+        usuarioRepository.atualizarStatusMulta(usuario);
+
         return "Multa Paga com Sucesso";
     }
 }

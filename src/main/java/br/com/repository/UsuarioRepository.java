@@ -65,6 +65,13 @@ public class UsuarioRepository {
                         rs.getString("email"),
                         FuncaoUsuario.valueOf(rs.getString("funcao"))
                 );
+                usuario.setLivros_alugados_total(rs.getLong("livros_alugados_total"));
+                usuario.setMulta_pendente(rs.getBoolean("multa_pendente"));
+                usuario.setLivros_em_posse(rs.getInt("livros_em_posse"));
+                usuario.setPossui_livro(rs.getBoolean("possui_livro"));
+                usuario.setPontos(rs.getInt("pontos"));
+                usuario.setAtivo(rs.getBoolean("ativo"));
+                usuario.setValorMulta(rs.getInt("valorMulta"));
                 usuarios.add(usuario);
             }
         } catch (Exception e) {
@@ -106,7 +113,7 @@ public class UsuarioRepository {
 
     // vai atualizar o status da multa
     public void atualizarStatusMulta(Usuario usuario) {
-        String sql = "UPDATE usuarios SET multa_pendente = ?, livros_em_posse = ?, possui_livro = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET multa_pendente = ?, livros_em_posse = ?, possui_livro = ?, valorMulta = ? WHERE id = ?";
 
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -114,7 +121,8 @@ public class UsuarioRepository {
             stmt.setBoolean(1, usuario.isMulta_pendente());
             stmt.setInt(2, usuario.getLivros_em_posse());
             stmt.setBoolean(3, usuario.isPossui_livro());
-            stmt.setInt(4, usuario.getId());
+            stmt.setInt(4, usuario.getValorMulta());
+            stmt.setInt(5, usuario.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
