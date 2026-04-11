@@ -4,18 +4,17 @@ import br.com.database.ConexaoBanco;
 import br.com.model.dto.EmprestimoDTO;
 import br.com.model.entity.Emprestimo;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
 public class EmprestimoRepository {
 
-    // Adicionar empréstimo
+    // salvar o emrpestimo
     public void salvar(Emprestimo emprestimo) {
         String sql = "INSERT INTO emprestimo (usuario_id, livro_id, emprestimo_data, devolucao_data, livro_devolvido) VALUES (?, ?, ?, ?, ?)";
+
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -26,14 +25,16 @@ public class EmprestimoRepository {
             stmt.setBoolean(5, emprestimo.isLivro_devolvido());
 
             stmt.executeUpdate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Listar empréstimos
-    public List<EmprestimoDTO> listar() {
+    // lista do emprestimoDTO
+    public List<EmprestimoDTO> listarEmprestimoDTO() {
         List<EmprestimoDTO> emprestimos = new ArrayList<>();
+
         String sql = """
             SELECT e.id, e.emprestimo_data, e.devolucao_data, e.livro_devolvido,
                    u.nome, u.cpf, u.funcao,
@@ -48,7 +49,7 @@ public class EmprestimoRepository {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                EmprestimoDTO dto = new EmprestimoDTO(
+                emprestimos.add(new EmprestimoDTO(
                         rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("cpf"),
@@ -59,10 +60,9 @@ public class EmprestimoRepository {
                         rs.getDate("emprestimo_data").toLocalDate(),
                         rs.getDate("devolucao_data").toLocalDate(),
                         rs.getBoolean("livro_devolvido")
-                );
-
-                emprestimos.add(dto);
+                ));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

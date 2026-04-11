@@ -3,6 +3,7 @@ package br.com.service;
 import br.com.model.entity.Livro;
 import br.com.model.enums.CategoriaLivros;
 import br.com.repository.LivroRepository;
+import br.com.util.ValidacoesEmailCpf;
 
 import java.util.Comparator;
 import java.util.List;
@@ -31,38 +32,23 @@ public class LivroService {
     }
 
     // editar um livro
-    public String editarLivro(int id, String titulo, String autor, String editora, CategoriaLivros categoria) {
-        List<Livro> listaLivros = livroRepository.listar();
+    public String editarLivro(Livro l, String titulo, String autor, String editora, CategoriaLivros categoria) {
 
-        // ordenar a lista pelo id
-        listaLivros.sort(Comparator.comparingInt(Livro::getId));
+        if (l != null) {
+            l.setTitulo(titulo);
+            l.setAutor(autor);
+            l.setEditora(editora);
+            l.setCategoria(categoria);
 
-        int left = 0;
-        int right = listaLivros.size() - 1;
+            livroRepository.atualizar(l);
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            Livro l = listaLivros.get(mid);
-
-            if (l.getId() == id) {
-                l.setTitulo(titulo);
-                l.setAutor(autor);
-                l.setEditora(editora);
-                l.setCategoria(categoria);
-
-                livroRepository.atualizar(l);
-
-                return "Livro alterado com sucesso";
-            } else if (l.getId() < id) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
+            return "Livro alterado com sucesso";
         }
 
-        return "Livro não encontrado";
+        return "Edição falhou, verifique novamente as informações fornecidas";
     }
 
+    // inativar livro
     public String inativarLivro(Livro livro){
         if(livro != null){
             livro.setAtivo(false);

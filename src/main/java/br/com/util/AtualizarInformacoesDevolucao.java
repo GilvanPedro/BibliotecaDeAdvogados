@@ -1,6 +1,7 @@
 package br.com.util;
 
 import br.com.model.entity.Emprestimo;
+import br.com.model.entity.HistoricoLeitura;
 import br.com.model.entity.Livro;
 import br.com.model.entity.Usuario;
 import br.com.service.HistoricoLeituraService;
@@ -9,14 +10,14 @@ public class AtualizarInformacoesDevolucao {
 
     private final HistoricoLeituraService historicoService = new HistoricoLeituraService();
 
-    public void atualizar(Emprestimo emprestimo) {
-        Usuario u = emprestimo.getUsuario();
-        Livro l = emprestimo.getLivro();
+    public void atualizar(HistoricoLeitura historico) {
+        Usuario u = historico.getUsuario();
+        Livro l = historico.getLivro();
 
         // atualiza estoque e posse
         u.setLivros_em_posse(u.getLivros_em_posse() - 1);
         l.setQuantidadeLivros(l.getQuantidadeLivros() + 1);
-        emprestimo.setLivro_devolvido(true);
+        historico.getEmprestimo().setLivro_devolvido(true);
 
         if (u.getLivros_em_posse() <= 0) {
             u.setPossui_livro(false);
@@ -24,6 +25,6 @@ public class AtualizarInformacoesDevolucao {
         }
 
         // atualiza o status no histórico
-        historicoService.atualizarStatusParaDevolvido(emprestimo);
+        historicoService.atualizarStatusParaDevolvido(historico);
     }
 }

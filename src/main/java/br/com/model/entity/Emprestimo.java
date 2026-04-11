@@ -51,6 +51,14 @@ public class Emprestimo {
         return livro_devolvido;
     }
 
+    public void setEmprestimo_data(LocalDate emprestimo_data) {
+        this.emprestimo_data = emprestimo_data;
+    }
+
+    public void setDevolucao_data(LocalDate devolucao_data) {
+        this.devolucao_data = devolucao_data;
+    }
+
     public void setLivro_devolvido(boolean livro_devolvido) {
         this.livro_devolvido = livro_devolvido;
     }

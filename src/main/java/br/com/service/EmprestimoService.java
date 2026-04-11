@@ -1,8 +1,13 @@
 package br.com.service;
 
+import br.com.model.dto.EmprestimoDTO;
 import br.com.model.dto.HistoricoDTO;
 import br.com.model.entity.Emprestimo;
 import br.com.model.entity.HistoricoLeitura;
+import br.com.model.entity.Livro;
+import br.com.model.entity.Usuario;
+import br.com.model.enums.CategoriaLivros;
+import br.com.model.enums.FuncaoUsuario;
 import br.com.model.enums.StatusLeitura;
 import br.com.model.enums.TipoLeitura;
 import br.com.repository.EmprestimoRepository;
@@ -13,6 +18,7 @@ import br.com.util.AtualizarInformacoesEmprestimo;
 
 import br.com.util.ValidarQuantidadeLivrosPegos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmprestimoService {
@@ -78,21 +84,58 @@ public class EmprestimoService {
         );
         historicoRepository.salvar(historicoLeitura);
 
-        // atualizando as informações do emprestimo dos livros
+        // atualizando as informações do emprestimo do livro normal
         AtualizarInformacoesEmprestimo atualizarInformacoes = new AtualizarInformacoesEmprestimo();
         atualizarInformacoes.atualizar(emprestimo);
 
         return "Livro Pego com sucesso";
     }
 
-    public List<HistoricoDTO> listarHistorico(){
-        List <HistoricoDTO> historicos = historicoRepository.listar();
+    // conversor
+    private Emprestimo converterDTOParaEntity(EmprestimoDTO dto) {
 
-        if(historicos.isEmpty()){
-            System.out.println("Histórico está vazio");
-            return null;
+        FuncaoUsuario funcao = FuncaoUsuario.valueOf(dto.getUsuarioFuncao().toUpperCase());
+        CategoriaLivros categoria = CategoriaLivros.valueOf(dto.getLivroCategoria().toUpperCase());
+
+        Usuario usuario = new Usuario(
+                0,
+                dto.getUsuarioNome(),
+                dto.getUsuarioCpf(),
+                null,
+                funcao
+        );
+
+        Livro livro = new Livro(
+                0,
+                dto.getLivroTitulo(),
+                dto.getLivroAutor(),
+                null,
+                categoria,
+                0
+        );
+
+        Emprestimo emprestimo = new Emprestimo(
+                dto.getId(),
+                usuario,
+                livro
+        );
+
+        emprestimo.setEmprestimo_data(dto.getEmprestimoData());
+        emprestimo.setDevolucao_data(dto.getDevolucaoData());
+        emprestimo.setLivro_devolvido(dto.isLivroDevolvido());
+
+        return emprestimo;
+    }
+
+    // lista da entidade emprestimo
+    public List<Emprestimo> listarEmprestimos() {
+
+        List<Emprestimo> lista = new ArrayList<>();
+
+        for (EmprestimoDTO dto : emprestimoRepository.listarEmprestimoDTO()) {
+            lista.add(converterDTOParaEntity(dto));
         }
 
-        return historicos;
+        return lista;
     }
 }

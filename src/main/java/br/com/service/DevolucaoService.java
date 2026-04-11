@@ -19,6 +19,7 @@ public class DevolucaoService {
     AtualizarInformacoesDevolucao atualizarDevolucao = new AtualizarInformacoesDevolucao();
     private final HistoricoLeituraRepository historicoLeituraRepository = new HistoricoLeituraRepository();
     UsuarioService usuarioService = new UsuarioService();
+    HistoricoLeituraService historicoLeituraService = new HistoricoLeituraService();
 
     private final int devolvidoEmDiaPonto = 2;
 
@@ -28,7 +29,7 @@ public class DevolucaoService {
         boolean emDia = validadorDevolucao.devolvidoEmDia(emprestimo);
         Usuario usuario = emprestimo.getUsuario();
 
-        atualizarDevolucao.atualizar(emprestimo);
+        atualizarDevolucao.atualizar(historicoLeituraService.buscarHistoricoPorEmprestimoId(emprestimo.getId()));
 
         // lógica de Multa e Pontuação
         if (!emDia) {
