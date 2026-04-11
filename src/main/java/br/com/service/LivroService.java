@@ -14,7 +14,7 @@ public class LivroService {
 
     public boolean informacoesCorretas(Livro livro){
         // verificacoes para ver se as informacoes estao vazias
-        if(livro.getTitulo().equals(null) || livro.getAutor().equals(null) || livro.getEditora().equals(null)){
+        if(livro.getTitulo() == null || livro.getAutor() == null || livro.getEditora() == null){
             return false;
         }
         return true;
