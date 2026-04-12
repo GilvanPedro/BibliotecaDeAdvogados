@@ -12,6 +12,7 @@ public class LivroService {
 
     LivroRepository livroRepository = new LivroRepository();
 
+    // verifica se as informações não estao nulas
     public boolean informacoesCorretas(Livro livro){
         // verificacoes para ver se as informacoes estao vazias
         if(livro.getTitulo() == null || livro.getAutor() == null || livro.getEditora() == null){

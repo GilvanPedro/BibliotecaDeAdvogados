@@ -1,7 +1,6 @@
 package br.com.controller;
 
 import br.com.model.entity.Livro;
-import br.com.model.entity.Usuario;
 import br.com.model.enums.CategoriaLivros;
 import br.com.repository.LivroRepository;
 import br.com.service.LivroService;

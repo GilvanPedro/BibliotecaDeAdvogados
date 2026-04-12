@@ -28,16 +28,4 @@ public class Multas {
 
         return taxaFixa + valorDiario;
     }
-
-    public String pagarMulta(Usuario usuario){
-        if(usuario.getValorMulta() <= 0 && !usuario.isMulta_pendente()){
-            return "Usuário não possui nenhuma multa pendente";
-        }
-
-        usuario.setValorMulta(0);
-        usuario.setMulta_pendente(false);
-        usuarioRepository.atualizarStatusMulta(usuario);
-
-        return "Multa Paga com Sucesso";
-    }
 }

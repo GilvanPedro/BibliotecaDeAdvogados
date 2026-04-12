@@ -81,4 +81,35 @@ public class UsuarioService {
 
         return "Pontos adicionados com sucesso para "+usuario.getNome();
     }
+
+    // adicionar as multas
+    public String adicionarMulta(int id, int multa){
+        Usuario usuario = usuarioController.buscarUsuario(id);
+
+        if(usuario == null){
+            return "Usuario não encontrado";
+        }
+        if(multa<=0){
+            return "A multa precisa ser maior do que 0";
+        }
+
+        usuario.setValorMulta(usuario.getValorMulta()+multa);
+        usuario.setMulta_pendente(true);
+        usuarioRepository.atualizarStatusMulta(usuario);
+
+        return "Multa adicionada com sucesso";
+    }
+
+    // pagar as multas
+    public String pagarMulta(Usuario usuario){
+        if(usuario.getValorMulta() <= 0 && !usuario.isMulta_pendente()){
+            return "Usuário não possui nenhuma multa pendente";
+        }
+
+        usuario.setValorMulta(0);
+        usuario.setMulta_pendente(false);
+        usuarioRepository.atualizarStatusMulta(usuario);
+
+        return "Multa Paga com Sucesso";
+    }
 }

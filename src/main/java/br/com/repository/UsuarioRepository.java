@@ -71,7 +71,7 @@ public class UsuarioRepository {
                 usuario.setPossui_livro(rs.getBoolean("possui_livro"));
                 usuario.setPontos(rs.getInt("pontos"));
                 usuario.setAtivo(rs.getBoolean("ativo"));
-                usuario.setValorMulta(rs.getInt("valorMulta"));
+                usuario.setValorMulta(rs.getInt("valor_multa"));
                 usuarios.add(usuario);
             }
         } catch (Exception e) {
@@ -113,7 +113,7 @@ public class UsuarioRepository {
 
     // vai atualizar o status da multa
     public void atualizarStatusMulta(Usuario usuario) {
-        String sql = "UPDATE usuarios SET multa_pendente = ?, livros_em_posse = ?, possui_livro = ?, valorMulta = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET multa_pendente = ?, livros_em_posse = ?, possui_livro = ?, valor_multa = ? WHERE id = ?";
 
         try (Connection conn = ConexaoBanco.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

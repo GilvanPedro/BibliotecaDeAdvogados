@@ -1,6 +1,5 @@
 package br.com.util;
 
-import br.com.model.entity.Emprestimo;
 import br.com.model.entity.HistoricoLeitura;
 import br.com.model.entity.Livro;
 import br.com.model.entity.Usuario;

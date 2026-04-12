@@ -25,8 +25,7 @@ public class EmprestimoService {
 
     private final ValidarQuantidadeLivrosPegos validacaoQuantidadeLivros = new ValidarQuantidadeLivrosPegos();
     private final EmprestimoRepository emprestimoRepository = new EmprestimoRepository();
-    private final HistoricoLeituraRepository historicoRepository = new HistoricoLeituraRepository();
-    private final UsuarioRepository usuarioRepository = new UsuarioRepository();
+    private final HistoricoLeituraService historicoLeituraService = new HistoricoLeituraService();
     UsuarioService usuarioService = new UsuarioService();
 
 
@@ -61,7 +60,7 @@ public class EmprestimoService {
                     StatusLeitura.LENDO
             );
 
-            historicoRepository.salvar(historicoLeitura);
+            historicoLeituraService.salvarHistorico(historicoLeitura);
             usuarioService.adicionarPontos(emprestimo.getUsuario(), leituraPresencialPonto);
 
             emprestimo.getLivro().setQuantidadeEmprestimo(
@@ -82,7 +81,7 @@ public class EmprestimoService {
                 TipoLeitura.EMPRESTIMO,
                 StatusLeitura.LENDO
         );
-        historicoRepository.salvar(historicoLeitura);
+        historicoLeituraService.salvarHistorico(historicoLeitura);
 
         // atualizando as informações do emprestimo do livro normal
         AtualizarInformacoesEmprestimo atualizarInformacoes = new AtualizarInformacoesEmprestimo();

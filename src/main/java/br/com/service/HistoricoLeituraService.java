@@ -1,6 +1,5 @@
 package br.com.service;
 
-import br.com.controller.EmprestimoController;
 import br.com.model.dto.HistoricoDTO;
 import br.com.model.entity.*;
 import br.com.model.enums.*;
@@ -12,11 +11,13 @@ import java.util.List;
 public class HistoricoLeituraService {
 
     HistoricoLeituraRepository historicoRepository = new HistoricoLeituraRepository();
-    HistoricoLeituraService historicoLeituraService = new HistoricoLeituraService();
-    EmprestimoController emprestimoController = new EmprestimoController();
 
     // salva o historico
     public String salvarHistorico(HistoricoLeitura historico){
+        if(historico == null){
+            return "Falha ao tentar salvar o Historico";
+        }
+
         historicoRepository.salvar(historico);
         return "Historico salvo com sucesso";
     }
@@ -26,7 +27,8 @@ public class HistoricoLeituraService {
 
         if (historico != null) {
             historico.setStatusLeitura(StatusLeitura.DEVOLVIDO);
-            historicoRepository.atualizar(historico.getEmprestimo(), StatusLeitura.DEVOLVIDO);
+            historicoRepository.atualizar(historico.getEmprestimo(), historico.getStatusLeitura());
+
             return "Status alterado com sucesso";
         }
 
