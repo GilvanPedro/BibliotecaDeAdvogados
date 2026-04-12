@@ -44,6 +44,7 @@ CREATE TABLE usuarios(
 	pontos INT DEFAULT 0
 );
 
+ALTER TABLE usuarios ADD valor_ulta INT DEFAULT 0;
 ALTER TABLE usuarios ADD ativo BOOLEAN DEFAULT TRUE;
 
 CREATE TABLE livros(
